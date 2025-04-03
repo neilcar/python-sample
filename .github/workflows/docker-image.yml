@@ -40,7 +40,7 @@ jobs:
         run: docker build -t ${{ env.GAR_LOCATION }}python/python-library:latest .
 
       - name: Build python-mini image
-        run: docker build -t ${{ env.GAR_LOCATION }}python/python-mini:latest -f Dockerfile.mini        
+        run: docker build -t ${{ env.GAR_LOCATION }}python/python-mini:latest -f Dockerfile.mini .      
         
 
       - name: Push python image
