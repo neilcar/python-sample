@@ -16,9 +16,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: "Install Podman"
-        run: sudo apt-get -y install podman && podman machine init && podman machine start
-
       - name: "Checkout"
         uses: "actions/checkout@v3"
 
