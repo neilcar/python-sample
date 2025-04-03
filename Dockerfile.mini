@@ -1,9 +1,11 @@
-FROM reg.mini.dev/python 
+FROM python as builder 
 EXPOSE 8000
 WORKDIR /app 
 COPY requirements.txt /app
 RUN python3 pip install -r requirements.txt --no-cache-dir
 COPY . /app 
+FROM reg.mini.dev/python
+COPY --from=builder /app /
 ENTRYPOINT ["python3"] 
 CMD ["manage.py", "runserver", "0.0.0.0:8000"]
 
