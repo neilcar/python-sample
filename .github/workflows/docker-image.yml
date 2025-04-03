@@ -15,6 +15,10 @@ jobs:
   build-push-artifact:
     runs-on: ubuntu-latest
     steps:
+
+      - name: "Install Podman"
+        run: sudo apt-get -y install podman && podman machine init && podman machine start
+
       - name: "Checkout"
         uses: "actions/checkout@v3"
 
@@ -37,14 +41,14 @@ jobs:
           gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
 
       - name: Build python image
-        run: docker build -t ${{ env.GAR_LOCATION }}python/python-library:latest .
+        run: podman build -t ${{ env.GAR_LOCATION }}python/python-library:latest .
 
       - name: Build python-mini image
-        run: docker build -t ${{ env.GAR_LOCATION }}python/python-mini:latest -f Dockerfile.mini .      
+        run: podman build -t ${{ env.GAR_LOCATION }}python/python-mini:latest -f Dockerfile.mini .      
         
 
       - name: Push python image
-        run: docker push ${{ env.GAR_LOCATION }}python/python-library:latest
+        run: podman push ${{ env.GAR_LOCATION }}python/python-library:latest
 
       - name: Push python-mini image
-        run: docker push ${{ env.GAR_LOCATION }}python/python-mini:latest
+        run: podman push ${{ env.GAR_LOCATION }}python/python-mini:latest
