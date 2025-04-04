@@ -37,6 +37,8 @@ jobs:
         run: |-
           gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
 
+      - run: pwd
+
       - name: Build python image
         run: podman build -t ${{ env.GAR_LOCATION }}python/python-library:latest app/
 
