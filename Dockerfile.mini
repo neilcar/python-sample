@@ -1,10 +1,18 @@
-FROM python as builder 
+FROM reg.mini.dev/python:3-dev as builder 
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV PATH="/app/venv/bin:$PATH"
 EXPOSE 8000
 WORKDIR /app 
+RUN python -m venv /app/venv
 COPY requirements.txt /app
 RUN pip3 install -r requirements.txt --no-cache-dir
 COPY . /app 
-FROM reg.mini.dev/python
+RUN ls -la
+FROM reg.mini.dev/python:3-dev
+ENV PYTHONUNBUFFERED=1
+ENV PATH="/venv/bin:$PATH"
+
 COPY --from=builder /app /
 ENTRYPOINT ["python3"] 
 CMD ["manage.py", "runserver", "0.0.0.0:8000"]
