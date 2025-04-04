@@ -38,10 +38,10 @@ jobs:
           gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
 
       - name: Build python image
-        run: podman build -t ${{ env.GAR_LOCATION }}python/python-library:latest .
+        run: podman build -t ${{ env.GAR_LOCATION }}python/python-library:latest app/
 
       - name: Build python-mini image
-        run: podman build -t ${{ env.GAR_LOCATION }}python/python-mini:latest -f Dockerfile.mini .      
+        run: podman build -t ${{ env.GAR_LOCATION }}python/python-mini:latest -f Dockerfile.mini app/   
         
 
       - name: Push python image
