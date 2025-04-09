@@ -1,19 +1,19 @@
-FROM reg.mini.dev/python:3-dev as builder 
+FROM reg.mini.dev/python:3-dev AS builder 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV PATH="/myapp/venv/bin:$PATH"
 EXPOSE 8000
 WORKDIR /myapp 
 RUN python -m venv /myapp/venv
-COPY requirements.txt /myapp
+COPY requirements.txt /myapp/
 RUN pip3 install -r requirements.txt --no-cache-dir
-COPY . /myapp 
-RUN touch db.sqlite3 && chown python:python db.sqlite3 
+COPY src/ /myapp/ 
+# RUN touch db.sqlite3 && chown python:python db.sqlite3 
+
 FROM reg.mini.dev/python:3
 ENV PYTHONUNBUFFERED=1
-ENV PATH="/venv/bin:$PATH"
-
-COPY --from=builder /myapp /
+ENV PATH="/myapp/venv/bin:$PATH"
+COPY --chown=1000:1000 --from=builder /myapp /myapp
 ENTRYPOINT ["python3"] 
-CMD ["manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["/myapp/manage.py", "runserver", "0.0.0.0:8000"]
 
