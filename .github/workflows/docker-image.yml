@@ -52,7 +52,7 @@ jobs:
           cosign download attestation \
            --predicate-type=https://spdx.dev/Document \
            --platform linux/amd64 \
-           reg.lab.mini.dev/python:latest | jq '.payload | @base64d |
+           reg.mini.dev/python:latest | jq '.payload | @base64d |
            fromjson | .predicate'  > spdx.json
 
       - name: "Scan Minimus image SBOM"
