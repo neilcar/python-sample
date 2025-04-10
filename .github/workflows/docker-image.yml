@@ -51,3 +51,31 @@ jobs:
 
       - name: Push python-mini image
         run: podman push ${{ env.GAR_LOCATION }}python/python-mini:latest
+
+      - name: Scan python image
+        uses: aquasecurity/trivy-action@0.30.0
+        if: always()
+        with:
+          image-ref: '${{ env.GAR_LOCATION }}python/python-library:latest'
+          format: 'sarif'
+          output: 'python-library-results.sarif'
+
+      - name: Upload python image scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'python-library-results.sarif'
+
+      - name: Scan python-mini image
+        uses: aquasecurity/trivy-action@0.30.0
+        if: always()
+        with:
+          image-ref: '${{ env.GAR_LOCATION }}python/python-mini:latest'
+          format: 'sarif'
+          output: 'python-mini-results.sarif'
+
+      - name: Upload python-mini image scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'python-mini-results.sarif'
