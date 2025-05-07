@@ -1,4 +1,4 @@
-FROM python 
+FROM reg.mini.dev/python:3 
 EXPOSE 8000
 WORKDIR /myapp 
 COPY requirements.txt /myapp/
